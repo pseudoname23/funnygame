@@ -16,10 +16,13 @@ const zoom = {
   }
 };
 
+let zoomChangedThisTick = false;
+
 function computeScreenSidesInUnits() {
-  zoom.screenBounds.top = zoom.center.y - canvas.height/2 / zoom.PPT;
+  zoomChangedThisTick = true;
+  zoom.screenBounds.top = zoom.center.y + canvas.height/2 / zoom.PPT;
   zoom.screenBounds.right = zoom.center.x + canvas.width/2 / zoom.PPT;
-  zoom.screenBounds.bottom = zoom.center.y + canvas.height/2 / zoom.PPT;
+  zoom.screenBounds.bottom = zoom.center.y - canvas.height/2 / zoom.PPT;
   zoom.screenBounds.left = zoom.center.x - canvas.width/2 / zoom.PPT;
 }
 function setPan(x, y) {
@@ -40,3 +43,8 @@ function onresize() {
 }
 
 window.addEventListener('resize', onresize);
+
+function tileCoordToPixelCoord(tiles, isY) {
+  // alert(zoom.screenBounds.top)
+  return (tiles - (isY ? zoom.screenBounds.top : zoom.screenBounds.left)) * zoom.PPT;
+}
