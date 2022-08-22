@@ -6,62 +6,51 @@ class Rectangle {
     this.height = height;
     this.center = {
       x: this.x + this.width/2,
-      y: this.y + this.height/2
+      y: this.y - this.height/2
     };
     this.sides = {
-      top: this.y,
+      top: this.y + this.height,
       right: this.x + this.width,
-      bottom: this.y + this.height,
+      bottom: this.y,
       left: this.x
     }
   }
 
-  get pixelatedX() {
-    return this.x * zoom.PPU - (zoom.center.x * zoom.PPU - canvas.width / 2);
-  }
-  get pixelatedY() {
-    return this.y * zoom.PPU - (zoom.center.y * zoom.PPU - canvas.height / 2);
-  }
-
-  // Draws the rectangle.
-  // returns undefined
   draw() {
     canvasCtx.strokeRect(
-      this.pixelatedX, this.pixelatedY, 
-      this.width * zoom.PPU, -this.height * zoom.PPU
+      tileCoordToPixelCoord(this.x, false),
+      tileCoordToPixelCoord(this.y, true), 
+      this.width * zoom.PPT, -this.height * zoom.PPT
     )
   }
 
-  // Labels the center of the rectangle in red.
-  // returns undefined
   labelCenter(){
     canvasCtx.save();
     canvasCtx.fillStyle = '#FF0000';
     canvasCtx.fillRect(
-      (this.center.x - zoom.sides.left) * zoom.PPU - 2, 
-      (this.center.y - zoom.sides.top) * zoom.PPU - 2, 
-      4, -4
+      tileCoordToPixelCoord(this.center.x, false) - 2, 
+      tileCoordToPixelCoord(this.center.y, true) - 2, 
+      4, 4
     )
     canvasCtx.restore();
   }
   
-  // Labels the stored position of the rectangle in blue.
-  // returns undefined
-  labelCoordinates(){
+  labelCoordinates() {
     canvasCtx.save();
     canvasCtx.fillStyle = '#0000FF';
     canvasCtx.fillRect(
-      this.pixelatedX - 2, this.pixelatedY - 2, 4, -4
+      tileCoordToPixelCoord(this.x, false) - 2, 
+      tileCoordToPixelCoord(this.y, true) - 2, 
+      4, 4
     )
     canvasCtx.restore();
   }
 
-  // Erases the rectangle and a 3px margin around it.
-  // returns undefined
   erase() {
     canvasCtx.clearRect(
-      this.pixelatedX - 3, this.pixelatedY - 3, 
-      this.width * zoom.PPU + 6, -this.height * zoom.PPU - 6
+      tileCoordToPixelCoord(this.x, false) - 3, 
+      tileCoordToPixelCoord(this.y, true) + 3, 
+      this.width * zoom.PPT + 6, -this.height * zoom.PPT - 6
     )
   }
 }
@@ -122,5 +111,23 @@ class MobileRect extends Rectangle {
       this.sides.bottom += dy;
     }
     this.saveTranslation(dx, dy);
+  }
+}
+
+class SolidRect extends Rectangle {
+  constructor(x,y,w,h) {
+    super(x,y,w,h);
+    solids.push(this);
+  }
+}
+
+function eraseAll() {
+  canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+}
+function drawAll() {
+  for(let s of solids) {
+    s.draw();
+    s.labelCoordinates();
+    s.labelCenter();
   }
 }
