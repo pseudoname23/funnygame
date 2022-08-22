@@ -1,4 +1,4 @@
 function tick() {
   dispatchEvent(new CustomEvent('tick'));
-  setTimeout(tick, secondsPerTick * 10000)
+  setTimeout(tick, secondsPerTick * 1000)
 }
