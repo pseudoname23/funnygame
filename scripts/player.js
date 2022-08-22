@@ -26,7 +26,7 @@ class Player {
     if (this.grounded) {
       this.vy = 0;
     } else {
-      this.vy -= gravityConstant;
+      this.vy -= gravityConstant / ticksPerSecond;
     }
   }
 }
