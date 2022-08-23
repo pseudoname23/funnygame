@@ -29,4 +29,7 @@ function updatePlayer() {
   player.erase()
   player.updatePosition();
   player.draw();
+  if (player.rect.intersects(solids[0])) {
+    console.log(player.rect.nearestSideOf(solids[0]));
+  }
 }

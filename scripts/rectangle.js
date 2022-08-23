@@ -64,17 +64,13 @@ class MobileRect extends Rectangle {
     this.lastTranslation = [null, null];
   }
 
-  // Stores the most recent translation of the rectangle.
-  // param [x, y]: Number
-  // returns undefined
+  // I have no idea why I'm doing this 
+  // but it might be important eventually
   saveTranslation(x, y) {
     this.lastTranslation[0] = x;
     this.lastTranslation[1] = y;
   }
 
-  // Translates the position of the rectangle.
-  // param [x, y]: Number
-  // returns undefined
   translate(x, y) {
     if (x !== 0) {
       this.x += x;
@@ -91,9 +87,6 @@ class MobileRect extends Rectangle {
     this.saveTranslation(x, y);
   }
 
-  // Moves the rectangle to the specified coordinates.
-  // param [x, y]: Number
-  // returns undefined
   moveTo(x, y) {
     let dx = dy = 0;
     if (this.x !== x) {
@@ -111,6 +104,40 @@ class MobileRect extends Rectangle {
       this.sides.bottom += dy;
     }
     this.saveTranslation(dx, dy);
+  }
+
+  intersects(rect) {
+    return (this.sides.bottom < rect.sides.top && rect.sides.bottom < this.sides.top)
+        && (this.sides.left < rect.sides.right && rect.sides.left < this.sides.right)
+  }
+
+  nearestSideOf(rect) {
+    const isVerticalAligned = 
+          rect.sides.left < this.center.x && this.center.x < rect.sides.right;
+    const isHorizontalAligned = 
+          rect.sides.bottom < this.center.y && this.center.y < rect.sides.top;
+
+    if (isVerticalAligned && isHorizontalAligned) return 'inside';
+
+    let isRightSide = Math.abs(rect.sides.left - this.center.x) > Math.abs(rect.sides.right - this.center.x);
+    let isAbove = Math.abs(rect.sides.bottom - this.center.y) > Math.abs(rect.sides.top - this.center.y);
+
+    if (!isVerticalAligned && !isHorizontalAligned) {
+      const nearestCorner = [
+        isRightSide ? rect.sides.right : rect.sides.left,
+        isAbove ? rect.sides.top : rect.sides.bottom
+      ];
+      const angleToCorner = Math.atan2(
+        this.center.y - nearestCorner[1], this.center.x - nearestCorner[0]
+      ) * 180/Math.PI;
+      if (-135 < angleToCorner && angleToCorner <= -45) return 'bottom';
+      if (-45 < angleToCorner && angleToCorner <= 45) return 'right';
+      if (45 < angleToCorner && angleToCorner <= 135) return 'top';
+      return 'left';
+    }
+
+    if (isHorizontalAligned) return isRightSide ? 'right' : 'left';
+    return isAbove ? 'top' : 'bottom';
   }
 }
 
