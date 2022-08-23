@@ -88,7 +88,8 @@ class MobileRect extends Rectangle {
   }
 
   moveTo(x, y) {
-    let dx = dy = 0;
+    let dx, dy;
+    dx = dy = 0;
     if (this.x !== x) {
       dx = x - this.x;
       this.x += dx;
