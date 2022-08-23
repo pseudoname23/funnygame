@@ -20,10 +20,10 @@ let zoomChangedThisTick = false;
 
 function computeScreenSidesInUnits() {
   zoomChangedThisTick = true;
-  zoom.screenBounds.top = zoom.center.y + canvas.height/2 / zoom.PPT;
-  zoom.screenBounds.right = zoom.center.x + canvas.width/2 / zoom.PPT;
-  zoom.screenBounds.bottom = zoom.center.y - canvas.height/2 / zoom.PPT;
-  zoom.screenBounds.left = zoom.center.x - canvas.width/2 / zoom.PPT;
+  zoom.screenBounds.top = zoom.center.y + zoom.screenDimensions.height/2 / zoom.PPT;
+  zoom.screenBounds.right = zoom.center.x + zoom.screenDimensions.width/2 / zoom.PPT;
+  zoom.screenBounds.bottom = zoom.center.y - zoom.screenDimensions.height/2 / zoom.PPT;
+  zoom.screenBounds.left = zoom.center.x - zoom.screenDimensions.width/2 / zoom.PPT;
 }
 function setPan(x, y) {
   zoom.center.x = x;
@@ -37,15 +37,18 @@ function setZoom(factor) {
 }
 function onresize() {
   const pageRect = document.body.getClientRects()[0];
-  zoom.screenDimensions.width = canvas.width = pageRect.width;
-  zoom.screenDimensions.height = canvas.height = pageRect.height;
+  zoom.screenDimensions.width = pageRect.width;
+  zoom.screenDimensions.height = pageRect.height;
+  for(let canvas of Object.values(canv)) {
+    canvas.width = pageRect.width;
+    canvas.height = pageRect.height;
+  }
   computeScreenSidesInUnits();
 }
 
 window.addEventListener('resize', onresize);
 
 function tileCoordToPixelCoord(tiles, isY) {
-  // alert(zoom.screenBounds.top)
   if (isY) return -((tiles - zoom.screenBounds.top) * zoom.PPT);
   return (tiles - zoom.screenBounds.left) * zoom.PPT;
 }

@@ -16,38 +16,38 @@ class Rectangle {
     }
   }
 
-  draw() {
-    canvasCtx.strokeRect(
+  draw(ctx) {
+    ctx.strokeRect(
       tileCoordToPixelCoord(this.x, false),
       tileCoordToPixelCoord(this.y, true), 
       this.width * zoom.PPT, -this.height * zoom.PPT
     )
   }
 
-  labelCenter(){
-    canvasCtx.save();
-    canvasCtx.fillStyle = '#FF0000';
-    canvasCtx.fillRect(
+  labelCenter(ctx) {
+    ctx.save();
+    ctx.fillStyle = '#FF0000';
+    ctx.fillRect(
       tileCoordToPixelCoord(this.center.x, false) - 2, 
       tileCoordToPixelCoord(this.center.y, true) - 2, 
       4, 4
     )
-    canvasCtx.restore();
+    ctx.restore();
   }
   
-  labelCoordinates() {
-    canvasCtx.save();
-    canvasCtx.fillStyle = '#0000FF';
-    canvasCtx.fillRect(
+  labelCoordinates(ctx) {
+    ctx.save();
+    ctx.fillStyle = '#0000FF';
+    ctx.fillRect(
       tileCoordToPixelCoord(this.x, false) - 2, 
       tileCoordToPixelCoord(this.y, true) - 2, 
       4, 4
     )
-    canvasCtx.restore();
+    ctx.restore();
   }
 
-  erase() {
-    canvasCtx.clearRect(
+  erase(ctx) {
+    ctx.clearRect(
       tileCoordToPixelCoord(this.x, false) - 3, 
       tileCoordToPixelCoord(this.y, true) + 3, 
       this.width * zoom.PPT + 6, -this.height * zoom.PPT - 6
@@ -121,13 +121,13 @@ class SolidRect extends Rectangle {
   }
 }
 
-function eraseAll() {
-  canvasCtx.clearRect(0, 0, canvas.width, canvas.height);
+function eraseAll(ctx) {
+  ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 }
 function drawAll() {
   for(let s of solids) {
-    s.draw();
-    s.labelCoordinates();
-    s.labelCenter();
+    s.draw(ctxs.static);
+    s.labelCoordinates(ctxs.static);
+    s.labelCenter(ctxs.static);
   }
 }

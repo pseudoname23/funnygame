@@ -8,15 +8,15 @@ class Player {
   // Draws and labels the player's internal rectangle.
   // returns undefined
   draw() {
-    this.rect.draw();
-    this.rect.labelCoordinates();
-    this.rect.labelCenter();
+    this.rect.draw(ctxs.mobile);
+    this.rect.labelCoordinates(ctxs.mobile);
+    this.rect.labelCenter(ctxs.mobile);
   }
 
   // Erases the player's internal rectangle.
   // returns undefined
   erase() {
-    this.rect.erase();
+    this.rect.erase(ctxs.mobile);
   }
 
   // Updates the player's position and velocity.
