@@ -17,7 +17,7 @@ class Player {
   }
 
   updatePosition() {
-    this.rect.translate(this.vx, this.vy);
+    this.rect.translate(this.vx/ticksPerSecond, this.vy/ticksPerSecond);
     if (!this.grounded) this.vy -= gravityConstant / ticksPerSecond;
     for (let c of this.contacts) {
       if (!this.rect.intersects(c)) {
@@ -48,6 +48,10 @@ function updatePlayer() {
 }
 
 // temp
+function jumpHeightToVelocity(height) {
+  return height + (gravityConstant / 2) * (height ** 2);
+  // i did this wrong fix later
+}
 addEventListener('keydown', ()=>{
-  player.vy += 0.2;
+  player.vy = 10;
 })
