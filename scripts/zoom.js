@@ -46,5 +46,6 @@ window.addEventListener('resize', onresize);
 
 function tileCoordToPixelCoord(tiles, isY) {
   // alert(zoom.screenBounds.top)
-  return (tiles - (isY ? zoom.screenBounds.top : zoom.screenBounds.left)) * zoom.PPT;
+  if (isY) return -((tiles - zoom.screenBounds.top) * zoom.PPT);
+  return (tiles - zoom.screenBounds.left) * zoom.PPT;
 }

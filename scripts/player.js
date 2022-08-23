@@ -22,7 +22,7 @@ class Player {
   // Updates the player's position and velocity.
   // returns undefined
   updatePosition() {
-    this.rect.translate(this.vx, -this.vy);
+    this.rect.translate(this.vx, this.vy);
     if (this.grounded) {
       this.vy = 0;
     } else {
@@ -37,4 +37,5 @@ function updatePlayer() {
   player.erase()
   player.updatePosition();
   player.draw();
+  //console.log(`${player.rect.y} tiles = ${tileCoordToPixelCoord(player.rect.y, true)} px`)
 }

@@ -6,7 +6,7 @@ class Rectangle {
     this.height = height;
     this.center = {
       x: this.x + this.width/2,
-      y: this.y - this.height/2
+      y: this.y + this.height/2
     };
     this.sides = {
       top: this.y + this.height,
