@@ -1,4 +1,3 @@
-window.onerror = (a,b,c,d,e) => alert(e.stack);
 const 
   $ = id => document.getElementById(id),
   canv = {
