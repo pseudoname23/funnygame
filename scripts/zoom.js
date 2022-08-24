@@ -35,18 +35,7 @@ function setZoom(factor) {
   zoom.PPT = zoom.kBasePPT * factor;
   computeScreenSidesInUnits();
 }
-function onresize() {
-  const pageRect = document.body.getClientRects()[0];
-  zoom.screenDimensions.width = pageRect.width;
-  zoom.screenDimensions.height = pageRect.height;
-  for(let canvas of Object.values(canv)) {
-    canvas.width = pageRect.width;
-    canvas.height = pageRect.height;
-  }
-  computeScreenSidesInUnits();
-}
 
-window.addEventListener('resize', onresize);
 
 function tileCoordToPixelCoord(tiles, isY) {
   if (isY) return -((tiles - zoom.screenBounds.top) * zoom.PPT);
