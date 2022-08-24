@@ -11,4 +11,4 @@ const
   gravityConstant = 9.8,
   ticksPerSecond = 60,
   secondsPerTick = 1 / ticksPerSecond,
-  solids = [];
+  solids = [];  
