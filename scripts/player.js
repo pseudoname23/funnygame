@@ -3,13 +3,19 @@ class Player {
     this.rect = new MobileRect(x, y, width, height);
     this.vx = this.vy = 0;
     this.grounded = false;
+    this.canJump = this.grounded;
     this.contacts = [];
+    this.stats = {
+      jumpHeight: 3,
+      maxSpeed: 16,
+      ticksToFullSpeed: 2 * ticksPerSecond,
+      ticksToFullStop: 0.5 * ticksPerSecond
+    }
   }
 
   draw() {
-    this.rect.draw(ctxs.mobile);
-    this.rect.labelCoordinates(ctxs.mobile);
-    this.rect.labelCenter(ctxs.mobile);
+    // todo: replace w sprite
+    this.rect.debugDraw(ctxs.mobile);
   }
 
   erase() {
@@ -25,16 +31,17 @@ class Player {
         this.contacts.splice(this.contacts.indexOf(c), 1);
       }
     }
-    for (let s of solids) {
-      if (this.rect.intersects(s)) {
-        if (this.contacts.indexOf(s)==-1) {
-          this.contacts.push(s);
+    for (let solid of solids) {
+      if (this.rect.intersects(solid)) {
+        if (this.contacts.indexOf(solid)==-1) {
+          this.contacts.push(solid);
         }
         if (this.grounded) continue;
-        if (this.rect.nearestSideOf(s) == 'top') {
+        if (this.rect.nearestSideOf(solid) == 'top') {
           this.grounded = true;
           this.vy = 0;
-          this.rect.moveTo(this.rect.x, s.y+s.height-0.00001)
+          this.canJump = true;
+          this.rect.moveTo(this.rect.x, solid.y + solid.height - 0.00001)
         }
       }
     }
@@ -47,11 +54,6 @@ function updatePlayer() {
   player.draw();
 }
 
-// temp
 function jumpHeightToVelocity(height) {
-  return height + (gravityConstant / 2) * (height ** 2);
-  // i did this wrong fix later
+  return Math.sqrt(2 * Math.abs(gravityConstant) * height);
 }
-addEventListener('keydown', ()=>{
-  player.vy = 10;
-})
