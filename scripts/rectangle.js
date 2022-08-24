@@ -58,6 +58,7 @@ class MobileRect extends Rectangle {
 
   // I have no idea why I'm doing this 
   // but it might be important eventually
+  // Update: this just saved my ass. Thanks, past me!
   saveTranslation(x, y) {
     this.lastTranslation[0] = x;
     this.lastTranslation[1] = y;
@@ -109,6 +110,8 @@ class MobileRect extends Rectangle {
           rect.sides.left < this.center.x && this.center.x < rect.sides.right;
     const isHorizontalAligned = 
           rect.sides.bottom < this.center.y && this.center.y < rect.sides.top;
+    
+    //alert(`${rect.sides.bottom} < ${this.center.y} && ${this.center.y} < ${rect.sides.top}`)
 
     if (isVerticalAligned && isHorizontalAligned) return 'inside';
 
@@ -132,6 +135,7 @@ class MobileRect extends Rectangle {
     if (isHorizontalAligned) return isRightSide ? 'right' : 'left';
     return isAbove ? 'top' : 'bottom';
   }
+
 }
 
 class SolidRect extends Rectangle {
