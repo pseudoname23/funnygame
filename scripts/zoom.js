@@ -15,9 +15,7 @@ const zoom = {
     left: 0
   }
 };
-
 let zoomChangedThisTick = false;
-
 function computeScreenSidesInUnits() {
   zoomChangedThisTick = true;
   zoom.screenBounds.top = zoom.center.y + zoom.screenDimensions.height/2 / zoom.PPT;
@@ -35,9 +33,7 @@ function setZoom(factor) {
   zoom.PPT = zoom.kBasePPT * factor;
   computeScreenSidesInUnits();
 }
-
-
 function tileCoordToPixelCoord(tiles, isY) {
   if (isY) return -((tiles - zoom.screenBounds.top) * zoom.PPT);
   return (tiles - zoom.screenBounds.left) * zoom.PPT;
-}
+} // Soon(TM)
