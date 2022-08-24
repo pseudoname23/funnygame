@@ -16,15 +16,12 @@ class Rectangle {
     }
   }
 
-  draw(ctx) {
+  debugDraw(ctx) {
     ctx.strokeRect(
       tileCoordToPixelCoord(this.x, false),
       tileCoordToPixelCoord(this.y, true), 
       this.width * zoom.PPT, -this.height * zoom.PPT
     )
-  }
-
-  labelCenter(ctx) {
     ctx.save();
     ctx.fillStyle = '#FF0000';
     ctx.fillRect(
@@ -32,11 +29,6 @@ class Rectangle {
       tileCoordToPixelCoord(this.center.y, true) - 2, 
       4, 4
     )
-    ctx.restore();
-  }
-  
-  labelCoordinates(ctx) {
-    ctx.save();
     ctx.fillStyle = '#0000FF';
     ctx.fillRect(
       tileCoordToPixelCoord(this.x, false) - 2, 
@@ -154,8 +146,6 @@ function eraseAll(ctx) {
 }
 function drawAll() {
   for(let s of solids) {
-    s.draw(ctxs.static);
-    s.labelCoordinates(ctxs.static);
-    s.labelCenter(ctxs.static);
+    s.debugDraw(ctxs.static);
   }
 }
