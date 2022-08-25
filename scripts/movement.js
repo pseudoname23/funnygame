@@ -10,6 +10,7 @@ new BindableFunction('jump', true,
     }
   }
 ).bind('Space');
+
 new BindableFunction('moveRight', false,
   function () {
     player.movementState.holdRight = true;
@@ -17,6 +18,7 @@ new BindableFunction('moveRight', false,
     player.movementState.holdRight = false;
   }
 ).bind('KeyD');
+
 new BindableFunction('moveLeft', false,
   function () {
     player.movementState.holdLeft = true;

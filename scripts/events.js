@@ -21,8 +21,19 @@ function mouseEventToEventCode(ev) {
     case 2: return 'mouseRight';
   }
 }
-function doNothing() { };
-const bindableFunctions = {}, bindings = {};
+function doNothing() { }; // Do not remove
+class ActiveKey {
+  constructor(code, ctrl, alt, shift) {
+    this.ctrl = ctrl;
+    this.alt = alt;
+    this.shift = shift;
+    if (activeKeys[code]) {
+      console.warn('Same key pressed twice without being released');
+    } else {
+      activeKeys[code] = this;
+    }
+  }
+}
 class BindableFunction {
   constructor(name, allowRepeat, onDown, onUp = doNothing) {
     this.down = onDown;
@@ -46,24 +57,31 @@ class BindableFunction {
   }
 }
 function onkeydown(ev) {
-  if (!bindings[ev.code] || (ev.repeat && !bindings[ev.code].allowRepeat)) return;
-  bindings[ev.code].down();
+  if (!bindings[ev.code] || ev.repeat) return;
+  new ActiveKey(ev.code, ev.ctrlKey, ev.altKey, ev.shiftKey);
 }
 function onkeyup(ev) {
   if (!bindings[ev.code]) return;
   bindings[ev.code].up();
+  activeKeys[ev.code] = undefined;
 }
 function onmousedown(ev) {
   const code = mouseEventToEventCode(ev);
   if (!bindings[code]) return;
-  bindings[code].down();
+  new ActiveKey(code, ev.ctrlKey, ev.altKey, ev.shiftKey)
 }
 function onmouseup(ev) {
   const code = mouseEventToEventCode(ev);
   if (!bindings[code]) return;
   bindings[code].up();
+  activeKeys[code] = undefined;
 }
 addEventListener('keydown', onkeydown);
 addEventListener('keyup', onkeyup);
 addEventListener('mousedown', onmousedown);
 addEventListener('mouseup', onmouseup);
+function repeatHeldKeys() {
+  for (let key of Object.keys(activeKeys)) {
+    if (bindings[key] && bindings[key].allowRepeat) bindings[key].down();
+  }
+}

@@ -106,6 +106,7 @@ class Player {
 }
 function updatePlayer() {
   player.erase();
+  repeatHeldKeys();
   player.updatePosition();
   player.draw();
 }
