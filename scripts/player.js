@@ -90,14 +90,16 @@ class Player {
     } else {
       if (this.movementState.holdLeft && this.canMoveLeft) {
         if (this.vx > -this.stats.maxHoldSpeed) {
-          this.vx -= this.accel;
+          this.vx -= this.vx > 0 ? (this.decel+this.accel) : this.accel;
         } else {
           this.vx = -this.stats.maxHoldSpeed
         }
       } else if (this.movementState.holdRight && this.canMoveRight) {
         if (this.vx < this.stats.maxHoldSpeed) {
-          this.vx += this.accel;
-        } else { this.vx = this.stats.maxHoldSpeed }
+          this.vx += this.vx<0 ? (this.decel+this.accel) : this.accel;
+        } else { 
+          this.vx = this.stats.maxHoldSpeed
+         }
       }
     }
   }
