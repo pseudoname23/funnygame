@@ -19,12 +19,19 @@ class AtkAbility extends Ability {
 
 new MoveAbility('walljump', function() {
   // this function will only be called if walljump is the player's move ability
-  if (player.moveAbility.checkCondition()) {}
+  if (player.moveAbility.checkCondition()) {
+    player._walljumpFlag = false;
+    player.vy = jumpHeightToVelocity(player.stats.jumpHeight * 0.75);
+    player.vx = player.canMoveLeft ? -4 : 4;
+  }
 }, function() {
   if (player.abilityReadyStates.movement) return true;
-  if (player.grounded) return false;
-  if (player.canMoveRight == player.canMoveLeft) return false;
+  if (player.grounded || (player.canMoveRight == player.canMoveLeft)) {
+    if (player.abilityReadyStates.movement) player.abilityReadyStates.movement = false;
+    return false;
+  }
   if (player._walljumpFlag) {
-    
+    player.abilityReadyStates.movement = true;
+    return true;
   }
 })
