@@ -21,6 +21,14 @@ class Player {
       ticksToGroundStop: 0.5 * ticksPerSecond,
       ticksToAirStop: 5 * ticksPerSecond,
     }
+    this.moveAbility = schmooves.walljump;
+    this.primaryAttack = undefined;
+    this.secondaryAttack = undefined;
+    this.abilityReadyStates = {
+      movement: false,
+      primary: false,
+      secondary: false
+    }
   }
   get airborne() { return !this.movementState.blockedOn.bottom };
   set airborne(bool) { this.movementState.blockedOn.bottom = !bool };
