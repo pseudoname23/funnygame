@@ -44,13 +44,30 @@ class Player {
     );
   };
   get accel() { return this.stats.maxHoldSpeed / this.stats.ticksToMaxHoldSpeed };
+  
   draw() { this.rect.debugDraw(ctxs.mobile) }
   erase() { this.rect.erase(ctxs.mobile) }
-  onGrounded(){}
+
+  onGrounded(solid){
+    this.grounded = true;
+    this.airborneFromJump = this.airborne;
+    this.vy = 0;
+    this.rect.moveTo(this.rect.x, solid.y + solid.height - 0.00001);
+  }
   onAirborne(){
     this.airborne = true;
   }
-  onTouchWall(dirToWall){}
+  onTouchWall(solid, nearestSide){
+    if(nearestSide == 'left') {
+      this.canMoveRight = false;
+      this.vx = 0;
+      this.rect.moveTo(solid.x - this.rect.width + 0.00001, this.rect.y);
+    } else {
+      this.canMoveLeft = false;
+      this.vx = 0;
+      this.rect.moveTo(solid.x + solid.width - 0.00001, this.rect.y);
+    }
+  }
   onLeaveWall(dirToWall){
     if (dirToWall == 'left') {
       this.canMoveRight = true;
@@ -58,7 +75,10 @@ class Player {
       this.canMoveLeft = true;
     }
   }
-  onBeforeBonk(){}
+  onBeforeBonk(solid) {
+    this.vy = -2; // doonk
+    this.rect.moveTo(this.rect.x, solid.y - this.rect.height);
+  }
   onAfterBonk(){
     console.log('bonk');
   }
@@ -84,25 +104,17 @@ class Player {
     }
     this.contacts.splice(this.contacts.indexOf(contact), 1);
   }
-  onGainContact(solid){
+  onGainContact(solid) {
     this.contacts.push(solid);
     let nearestSide = this.rect.nearestSideOf(solid);
     if (nearestSide == 'top' && this.airborne) {
-      this.grounded = true;
-      this.airborneFromJump = this.airborne;
-      this.vy = 0;
-      this.rect.moveTo(this.rect.x, solid.y + solid.height - 0.00001);
-    } else if (nearestSide == 'right' && this.canMoveLeft) {
-      this.canMoveLeft = false;
-      this.vx = 0;
-      this.rect.moveTo(solid.x + solid.width - 0.00001, this.rect.y);
-    } else if (nearestSide == 'left' && this.canMoveRight) {
-      this.canMoveRight = false;
-      this.vx = 0;
-      this.rect.moveTo(solid.x - this.rect.width + 0.00001, this.rect.y);
+      this.onGrounded(solid);
+    } else if (
+      (nearestSide == 'right' && this.canMoveLeft) || (nearestSide == 'left' && this.canMoveRight)
+    ) {
+      this.onTouchWall(solid, nearestSide);
     } else if (nearestSide == 'bottom') {
-      this.vy = -2; // doonk
-      this.rect.moveTo(this.rect.x, solid.y - this.rect.height);
+      this.onBeforeBonk(solid);
     }
   }
   move() {
