@@ -46,6 +46,22 @@ class Player {
   get accel() { return this.stats.maxHoldSpeed / this.stats.ticksToMaxHoldSpeed };
   draw() { this.rect.debugDraw(ctxs.mobile) }
   erase() { this.rect.erase(ctxs.mobile) }
+  onGrounded(){}
+  onAirborne(){
+    this.airborne = true;
+  }
+  onTouchWall(dirToWall){}
+  onLeaveWall(dirToWall){
+    if (dirToWall == 'left') {
+      this.canMoveRight = true;
+    } else {
+      this.canMoveLeft = true;
+    }
+  }
+  onBeforeBonk(){}
+  onAfterBonk(){
+    console.log('bonk');
+  }
   onLoseContact(contact){
     let prevPosition = new MobileRect(
       this.rect.x - this.rect.lastTranslation[0],
@@ -53,10 +69,18 @@ class Player {
       this.rect.width, this.rect.height
     );
     switch (prevPosition.nearestSideOf(contact)) {
-      case 'top': this.airborne = true; break;
-      case 'left': this.canMoveRight = true; break;
-      case 'right': this.canMoveLeft = true; break;
-      case 'bottom': console.log('bonk'); break;
+        case 'top': 
+          this.onAirborne(); 
+          break;
+        case 'left': 
+          this.onLeaveWall('left'); 
+          break;
+        case 'right': 
+          this.onLeaveWall('right'); 
+          break;
+        case 'bottom': 
+          this.onAfterBonk(); 
+          break;
     }
     this.contacts.splice(this.contacts.indexOf(contact), 1);
   }

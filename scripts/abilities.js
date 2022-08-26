@@ -24,5 +24,7 @@ new MoveAbility('walljump', function() {
   if (player.abilityReadyStates.movement) return true;
   if (player.grounded) return false;
   if (player.canMoveRight == player.canMoveLeft) return false;
-  if (player._walljumpFlag) 
+  if (player._walljumpFlag) {
+    
+  }
 })
