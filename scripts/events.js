@@ -65,6 +65,7 @@ function onkeyup(ev) {
 function onmousedown(ev) {
   const code = mouseEventToEventCode(ev);
   if (!bindings[code]) return;
+  if (!bindings[code].allowRepeat) bindings[code].down();
   new ActiveKey(code, ev.ctrlKey, ev.altKey, ev.shiftKey)
 }
 function onmouseup(ev) {
