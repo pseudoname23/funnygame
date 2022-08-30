@@ -39,39 +39,41 @@ class BindableFunction {
     bindableFunctions[name] = this;
   }
   bind(eventCode) {
-    if (this.binding !== null) {
-      if (confirm('This button is already bound. Replace binding?')) {
-        bindings[eventCode].unbind();
-      } else { return; }
-    }
-    bindings[eventCode] = this;
+    if (bindings[eventCode] == undefined) bindings[eventCode] = [];
+    bindings[eventCode].push(this);
     this.binding = eventCode;
   }
   unbind() {
-    bindings[this.binding] = undefined;
+    bindings[this.binding].splice(bindings[this.binding].indexOf(this), 1);
+    if (bindings[this.binding].length === 0) delete bindings[this.binding];
     this.binding = null;
   }
 }
 function onkeydown(ev) {
   if (!bindings[ev.code] || ev.repeat) return;
-  if (!bindings[ev.code].allowRepeat) bindings[ev.code].down();
+  //if (!bindings[ev.code].allowRepeat) bindings[ev.code].down();
+  for (let keybind of bindings[ev.code]) {
+    if (!keybind.allowRepeat) keybind.down();
+  }
   new ActiveKey(ev.code, ev.ctrlKey, ev.altKey, ev.shiftKey);
 }
 function onkeyup(ev) {
   if (!bindings[ev.code]) return;
-  bindings[ev.code].up();
+  for (let keybind of bindings[ev.code]) keybind.up();
   delete activeKeys[ev.code];
 }
 function onmousedown(ev) {
   const code = mouseEventToEventCode(ev);
   if (!bindings[code]) return;
-  if (!bindings[code].allowRepeat) bindings[code].down();
+  for (let keybind of bindings[code]) {
+    if (!keybind.allowRepeat) keybind.down();
+  }
   new ActiveKey(code, ev.ctrlKey, ev.altKey, ev.shiftKey)
 }
 function onmouseup(ev) {
   const code = mouseEventToEventCode(ev);
   if (!bindings[code]) return;
-  bindings[code].up();
+  for (let keybind of bindings[code]) keybind.up();
   delete activeKeys[code];
 }
 addEventListener('keydown', onkeydown);
@@ -80,6 +82,10 @@ addEventListener('mousedown', onmousedown);
 addEventListener('mouseup', onmouseup);
 function repeatHeldKeys() {
   for (let key of Object.keys(activeKeys)) {
-    if (bindings[key] && bindings[key].allowRepeat) bindings[key].down();
+    //if (bindings[key] && bindings[key].allowRepeat) bindings[key].down();
+    if (!bindings[key]) continue;
+    for (let binding of bindings[key]) {
+      if (binding.allowRepeat) binding.down();
+    }
   }
 }
