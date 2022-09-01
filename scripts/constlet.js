@@ -12,4 +12,5 @@ const
   ticksPerSecond = 60,
   secondsPerTick = 1 / ticksPerSecond,
   solids = [], activeKeys = {},
-  bindableFunctions = {}, bindings = {};
+  bindableFunctions = {}, bindings = {},
+  attacks = {}, schmooves = {};

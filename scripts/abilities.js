@@ -1,5 +1,4 @@
-const schmooves = {}, attacks = {};
-class Ability {
+/*class Ability {
   constructor(name, fn, isAttack, checkCondition) {
     isAttack ? (attacks[name] = this) : (schmooves[name] = this);
     this.fn = fn;
@@ -33,4 +32,4 @@ new MoveAbility('walljump', function() {
     player.abilityReadyStates.movement = true;
     return true;
   }
-})
+})*/

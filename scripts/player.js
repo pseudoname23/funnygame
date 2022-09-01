@@ -21,7 +21,7 @@ class Player {
       ticksToGroundStop: 0.5 * ticksPerSecond,
       ticksToAirStop: 5 * ticksPerSecond,
     }
-    this.moveAbility = schmooves.walljump;
+    this.moveAbility = undefined;
     this.primaryAttack = undefined;
     this.secondaryAttack = undefined;
     this.abilityReadyStates = {
@@ -53,7 +53,7 @@ class Player {
     this.airborneFromJump = this.airborne;
     this.vy = 0;
     this.rect.moveTo(this.rect.x, solid.y + solid.height - 0.00001);
-    if(this.moveAbility == schmooves.walljump) this._walljumpFlag = true;
+    // if (this.moveAbility == schmooves.walljump) this._walljumpFlag = true;
   }
   onAirborne(){
     this.airborne = true;
