@@ -34,12 +34,38 @@ new MoveAbility('walljump', function() {
   }
 })*/
 
+/* ability args template *//*
+// isAttack: Boolean
+// name: String
+// allowRepeat: Boolean
+// onUse: Function=>void
+// condition: Function=>Boolean (optional)
+// cooldown: Number (optional: default = 0)
+// onAirborne:   Function=>void (optional)
+// onGrounded:   Function=>void (optional)
+// onTouchWall:  Function=>void (optional)
+// onLeaveWall:  Function=>void (optional)
+// onBeforeBonk: Function=>void (optional)
+// onAfterBonk:  Function=>void (optional)
+*/
 class Ability {
-  constructor(isAttack, name, condition, cooldown, allowRepeat) {
-    isAttack ? (attacks[name] = this) : (schmooves[name] = this);
-    this.condition = condition ?? unconditional;
-    this.cooldown = cooldown ?? 0;
-    this.repeat = allowRepeat;
-    
+  constructor(args) {
+    switch(true) {
+      case args.isAttack == undefined:
+      case args.allowRepeat == undefined:
+      case !args.name || !args.onUse:
+        throw Error('Missing one or more mandatory arguments in Ability()');
+    }
+    args.isAttack ? (attacks[args.name] = this) : (schmooves[args.name] = this);
+    this.repeat = args.allowRepeat;
+    this.onUse = args.onUse;
+    this.condition = args.condition ?? unconditional;
+    this.cooldown = args.cooldown ?? 0;
+    this.onAirborne = args.onAirborne ?? doNothing;
+    this.onGrounded = args.onGrounded ?? doNothing;
+    this.onTouchWall = args.onTouchWall ?? doNothing;
+    this.onLeaveWall = args.onLeaveWall ?? doNothing;
+    this.onBeforeBonk = args.onBeforeBonk ?? doNothing;
+    this.onAfterBonk = args.onAfterBonk ?? doNothing;
   }
 }
