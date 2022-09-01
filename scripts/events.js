@@ -21,7 +21,6 @@ function mouseEventToEventCode(ev) {
     case 2: return 'mouseRight';
   }
 }
-function doNothing() { }; // Do not remove
 class ActiveKey {
   constructor(code, ctrl, alt, shift) {
     this.ctrl = ctrl;

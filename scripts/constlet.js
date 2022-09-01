@@ -13,4 +13,5 @@ const
   secondsPerTick = 1 / ticksPerSecond,
   solids = [], activeKeys = {},
   bindableFunctions = {}, bindings = {},
-  attacks = {}, schmooves = {};
+  attacks = {}, schmooves = {},
+  doNothing = ()=>{}, unconditional = ()=>true;

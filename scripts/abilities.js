@@ -33,3 +33,13 @@ new MoveAbility('walljump', function() {
     return true;
   }
 })*/
+
+class Ability {
+  constructor(isAttack, name, condition, cooldown, allowRepeat) {
+    isAttack ? (attacks[name] = this) : (schmooves[name] = this);
+    this.condition = condition ?? unconditional;
+    this.cooldown = cooldown ?? 0;
+    this.repeat = allowRepeat;
+    
+  }
+}
