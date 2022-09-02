@@ -57,8 +57,13 @@ class Ability {
         throw Error('Missing one or more mandatory arguments in Ability()');
     }
     args.isAttack ? (attacks[args.name] = this) : (schmooves[args.name] = this);
+    this.isAttack = args.isAttack
+    this.equipped = false;
     this.repeat = args.allowRepeat;
-    this.onUse = args.onUse;
+    this.onUse = function() {
+      args.onUse();
+
+    };
     this.condition = args.condition ?? unconditional;
     this.cooldown = args.cooldown ?? 0;
     this.onAirborne = args.onAirborne ?? doNothing;
@@ -67,5 +72,60 @@ class Ability {
     this.onLeaveWall = args.onLeaveWall ?? doNothing;
     this.onBeforeBonk = args.onBeforeBonk ?? doNothing;
     this.onAfterBonk = args.onAfterBonk ?? doNothing;
+  }
+
+  get slot() {
+    if (!this.equipped) return null;
+    if (!this.isAttack) return 'moveAbility';
+    return player.primaryAttack == this ? 'primaryAttack' : 'secondaryAttack';
+  }
+
+  get cooldownProp() {
+    switch(this.slot) {
+      case null: return null;
+      case 'moveAbility': return 'moveCooldown'; break;
+      case 'primaryAttack': return 'primaryCooldown'; break;
+      case 'secondaryAttack': return 'secondaryCooldown'; break;
+    }
+  }
+
+  equip(asPrimary) {
+    if (this.equipped) return;
+    this.equipped = true;
+
+    if (!this.isAttack) {
+      if (player.moveAbility != null) {
+        player.moveAbility.dequip();
+      } player.moveAbility = this;
+
+    } else {
+      if (asPrimary) {
+        if (player.primaryAttack != null) {
+          player.primaryAttack.dequip();
+        } player.primaryAttack = this;
+
+      } else {
+        if (player.secondaryAttack != null) {
+          player.secondaryAttack.dequip();
+        } player.secondaryAttack = this;
+      }
+    }
+  }
+
+  dequip() {
+    if (!this.equipped) return;
+    this.equipped = false;
+    player[this.slot] = null;
+  }
+
+  get ready() {
+    let cooldownProp;
+    switch(this.slot) {
+      case null: return false;
+      case 'moveAbility': cooldownProp = 'moveCooldown'; break;
+      case 'primaryAttack': cooldownProp = 'primaryCooldown'; break;
+      case 'secondaryAttack': cooldownProp = 'secondaryCooldown'; break;
+    }
+    return (player[cooldownProp] === 0) && this.condition();
   }
 }

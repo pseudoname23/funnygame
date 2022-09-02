@@ -21,9 +21,9 @@ class Player {
       ticksToGroundStop: 0.5 * ticksPerSecond,
       ticksToAirStop: 5 * ticksPerSecond,
     }
-    this.moveAbility = undefined;
-    this.primaryAttack = undefined;
-    this.secondaryAttack = undefined;
+    this.moveAbility = null;
+    this.primaryAttack = null;
+    this.secondaryAttack = null;
     this.abilityReadyStates = {
       movement: false,
       primary: false,
@@ -53,12 +53,17 @@ class Player {
     this.airborneFromJump = this.airborne;
     this.vy = 0;
     this.rect.moveTo(this.rect.x, solid.y + solid.height - 0.00001);
-    // if (this.moveAbility == schmooves.walljump) this._walljumpFlag = true;
+    if (this.moveAbility) this.moveAbility.onGrounded();
+    if (this.primaryAttack) this.primaryAttack.onGrounded();
+    if (this.secondaryAttack) this.secondaryAttack.onGrounded();
   }
   onAirborne(){
     this.airborne = true;
+    if (this.moveAbility) this.moveAbility.onAirborne();
+    if (this.primaryAttack) this.primaryAttack.onAirborne();
+    if (this.secondaryAttack) this.secondaryAttack.onAirborne();
   }
-  onTouchWall(solid, nearestSide){
+  onTouchWall(solid, nearestSide) {
     if(nearestSide == 'left') {
       this.canMoveRight = false;
       this.vx = 0;
@@ -68,6 +73,9 @@ class Player {
       this.vx = 0;
       this.rect.moveTo(solid.x + solid.width - 0.00001, this.rect.y);
     }
+    if (this.moveAbility) this.moveAbility.onTouchWall();
+    if (this.primaryAttack) this.primaryAttack.onTouchWall();
+    if (this.secondaryAttack) this.secondaryAttack.onTouchWall();
   }
   onLeaveWall(dirToWall){
     if (dirToWall == 'left') {
@@ -75,13 +83,22 @@ class Player {
     } else {
       this.canMoveLeft = true;
     }
+    if (this.moveAbility) this.moveAbility.onLeaveWall();
+    if (this.primaryAttack) this.primaryAttack.onLeaveWall();
+    if (this.secondaryAttack) this.secondaryAttack.onLeaveWall();
   }
   onBeforeBonk(solid) {
     this.vy = -2; // doonk
     this.rect.moveTo(this.rect.x, solid.y - this.rect.height);
+    if (this.moveAbility) this.moveAbility.onBeforeBonk();
+    if (this.primaryAttack) this.primaryAttack.onBeforeBonk();
+    if (this.secondaryAttack) this.secondaryAttack.onBeforeBonk();
   }
   onAfterBonk(){
     console.log('bonk');
+    if (this.moveAbility) this.moveAbility.onAfterBonk();
+    if (this.primaryAttack) this.primaryAttack.onAfterBonk();
+    if (this.secondaryAttack) this.secondaryAttack.onAfterBonk();
   }
   onLoseContact(contact){
     let prevPosition = new MobileRect(
