@@ -34,7 +34,7 @@ new MoveAbility('walljump', function() {
   }
 })*/
 
-/* ability args template *//*
+/* ability args req.s *//*
 // isAttack: Boolean
 // name: String
 // allowRepeat: Boolean
@@ -48,6 +48,17 @@ new MoveAbility('walljump', function() {
 // onBeforeBonk: Function=>void (optional)
 // onAfterBonk:  Function=>void (optional)
 */
+
+/* ability args minimal template *//*
+{
+  isAttack: true,
+  name: 'theFunny',
+  allowRepeat: true,
+  onUse: () => {
+    // function body...
+  },
+}
+*/
 class Ability {
   constructor(args) {
     switch(true) {
@@ -57,12 +68,13 @@ class Ability {
         throw Error('Missing one or more mandatory arguments in Ability()');
     }
     args.isAttack ? (attacks[args.name] = this) : (schmooves[args.name] = this);
-    this.isAttack = args.isAttack
+    this.isAttack = args.isAttack;
     this.equipped = false;
     this.repeat = args.allowRepeat;
     this.onUse = function() {
+      if (!this.ready) return;
       args.onUse();
-
+      player[this.cooldownProp] = this.cooldown;
     };
     this.condition = args.condition ?? unconditional;
     this.cooldown = args.cooldown ?? 0;
@@ -83,9 +95,9 @@ class Ability {
   get cooldownProp() {
     switch(this.slot) {
       case null: return null;
-      case 'moveAbility': return 'moveCooldown'; break;
-      case 'primaryAttack': return 'primaryCooldown'; break;
-      case 'secondaryAttack': return 'secondaryCooldown'; break;
+      case 'moveAbility': return 'moveCooldown';
+      case 'primaryAttack': return 'primaryCooldown';
+      case 'secondaryAttack': return 'secondaryCooldown';
     }
   }
 
@@ -119,13 +131,24 @@ class Ability {
   }
 
   get ready() {
-    let cooldownProp;
-    switch(this.slot) {
-      case null: return false;
-      case 'moveAbility': cooldownProp = 'moveCooldown'; break;
-      case 'primaryAttack': cooldownProp = 'primaryCooldown'; break;
-      case 'secondaryAttack': cooldownProp = 'secondaryCooldown'; break;
-    }
-    return (player[cooldownProp] === 0) && this.condition();
+    return (player[this.cooldownProp] === 0) && this.condition();
   }
 }
+
+new Ability({
+  isAttack: false,
+  name: 'walljump',
+  allowRepeat: false,
+  onUse: () => {
+    player._walljumpFlag = false;
+    player.vy = jumpHeightToVelocity(player.stats.jumpHeight * 0.75);
+    player.vx = player.canMoveLeft ? -4 : 4;
+  },
+  condition: () => {return (
+    player._walljumpFlag && player.airborne && 
+    (player.canMoveRight != player.canMoveLeft)
+  )},
+  onGrounded: () => {
+    player._walljumpFlag = true;
+  }
+})

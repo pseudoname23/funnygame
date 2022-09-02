@@ -171,9 +171,15 @@ class Player {
     }
     this.move();
   }
+  updateCooldowns() {
+    if (this.moveCooldown) --this.moveCooldown;
+    if (this.primaryCooldown) --this.primaryCooldown;
+    if (this.secondaryCooldown) --this.secondaryCooldown;
+  }
 }
 function updatePlayer() {
   player.erase();
+  player.updateCooldowns();
   repeatHeldKeys();
   player.updatePosition();
   player.draw();
