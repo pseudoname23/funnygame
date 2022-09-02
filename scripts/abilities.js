@@ -69,6 +69,7 @@ class Ability {
     }
     args.isAttack ? (attacks[args.name] = this) : (schmooves[args.name] = this);
     this.isAttack = args.isAttack;
+    this.name = args.name;
     this.equipped = false;
     this.repeat = args.allowRepeat;
     this.onUse = function() {
@@ -133,6 +134,13 @@ class Ability {
   get ready() {
     return (player[this.cooldownProp] === 0) && this.condition();
   }
+
+  bindable() {
+    if (bindableFunctions[this.name]) return bindableFunctions[this.name];
+    return new BindableFunction(
+      this.name, this.repeat, this.onUse
+    );
+  }
 }
 
 new Ability({
@@ -151,4 +159,4 @@ new Ability({
   onGrounded: () => {
     player._walljumpFlag = true;
   }
-})
+}).bindable().bind('Space');
