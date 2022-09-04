@@ -123,6 +123,7 @@ class Ability {
         } player.secondaryAttack = this;
       }
     }
+    return this;
   }
 
   dequip() {
@@ -137,9 +138,13 @@ class Ability {
 
   bindable() {
     if (bindableFunctions[this.name]) return bindableFunctions[this.name];
+
+    // BindableFunction.onDown will call Ability.onUse in the context of the BindableFunction
+    // so we must introduce a wrapper function to correct it
+    let safeOnUse = () => this.onUse.call(this);
     return new BindableFunction(
-      this.name, this.repeat, this.onUse
-    );
+      this.name, this.repeat, safeOnUse
+    )
   }
 }
 

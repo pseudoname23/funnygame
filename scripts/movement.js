@@ -4,10 +4,8 @@ new BindableFunction('jump', true,
     player.vy = jumpHeightToVelocity(player.stats.jumpHeight);
     player.airborneFromJump = true;
   }, function () {
-    if (player.vy > 0 && player.airborneFromJump) {
-      player.vy /= 2;
-      player.airborneFromJump = false;
-    }
+    if (player.vy > 0 && player.airborneFromJump) player.vy /= 2;
+    player.airborneFromJump = false;
   }
 ).bind('Space');
 

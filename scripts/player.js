@@ -11,7 +11,6 @@ class Player {
       holdRight: false,
       holdLeft: false,
       holdJump: false,
-      airborneFromJump: false,
     }
     this.contacts = [];
     this.stats = {
@@ -21,14 +20,8 @@ class Player {
       ticksToGroundStop: 0.5 * ticksPerSecond,
       ticksToAirStop: 5 * ticksPerSecond,
     }
-    this.moveAbility = null;
-    this.primaryAttack = null;
-    this.secondaryAttack = null;
-    this.abilityReadyStates = {
-      movement: false,
-      primary: false,
-      secondary: false
-    }
+    this.moveAbility = this.primaryAttack = this.secondaryAttack = null;
+    this.moveCooldown = this.primaryCooldown = this.secondaryCooldown = 0;
   }
   get airborne() { return !this.movementState.blockedOn.bottom };
   set airborne(bool) { this.movementState.blockedOn.bottom = !bool };
