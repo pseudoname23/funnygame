@@ -14,14 +14,14 @@
 */
 
 /* ability args minimal template *//*
-{
+new Ability({
   isAttack: true,
   name: 'theFunny',
   allowRepeat: true,
   onUse: () => {
     // function body...
   },
-}
+}).bindable().bind('key');
 */
 class Ability {
   constructor(args) {
