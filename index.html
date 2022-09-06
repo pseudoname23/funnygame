@@ -4,8 +4,19 @@
     <link rel="stylesheet" href="./index.css">
   </head>
   <body>
-    <canvas id="mobile"></canvas>
-    <canvas id="static">This text should not appear</canvas>
+    <div id="main-menu">
+      <div class="main-menu-row">
+        <span id="game-title">[insert game name here]</span>
+      </div>
+      <div class="main-menu-row">
+        <input type="text" id="in-game-name"> <button id="play">Play!</button>
+      </div>
+      <div class="main-menu-row"></div>
+    </div>
+    <div id="game">
+      <canvas id="mobile"></canvas>
+      <canvas id="static">This text should not appear</canvas>
+    </div>
   </body>
   <script src="./scripts/constlet.js" defer></script>
   <script src="./scripts/zoom.js" defer></script>

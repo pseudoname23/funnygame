@@ -6,3 +6,20 @@ canvas {
   position: absolute;
   top: 0; left: 0;
 }  
+#main-menu {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  /*background-color: rgba(0, 0, 0, 0.7);*/
+  background-image: radial-gradient(transparent, rgba(0, 0, 0, 0.7));
+}
+.main-menu-row {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+#game-title {
+  font-size: 24px;
+  font-family: sans-serif;
+}
