@@ -12,6 +12,7 @@ function start() {
   schmooves.walljump.equip();
   tick();
   $('main-menu').classList.add('hidden');
+  state = states.IN_GAME;
 }
 
 $('play').addEventListener('pointerup', start);

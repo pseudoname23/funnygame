@@ -37,6 +37,7 @@ class Ability {
     this.equipped = false;
     this.repeat = args.allowRepeat;
     this.onUse = function() {
+      if (state !== states.IN_GAME) return;
       if (!this.ready) return;
       args.onUse();
       player[this.cooldownProp] = this.cooldown;
