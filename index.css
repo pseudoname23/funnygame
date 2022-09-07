@@ -1,6 +1,10 @@
 body {
   margin: 0;
+}
+#game {
   position: relative;
+  top: -100%;
+  z-index: -1;
 }
 canvas {
   position: absolute;
@@ -11,7 +15,6 @@ canvas {
   display: flex;
   justify-content: center;
   flex-direction: column;
-  /*background-color: rgba(0, 0, 0, 0.7);*/
   background-image: radial-gradient(transparent, rgba(0, 0, 0, 0.7));
 }
 .main-menu-row {
@@ -22,4 +25,7 @@ canvas {
 #game-title {
   font-size: 24px;
   font-family: sans-serif;
+}
+.hidden {
+  opacity: 0;
 }

@@ -12,6 +12,7 @@ function start() {
   window.addEventListener('tick', updatePlayer);
   schmooves.walljump.equip();
   tick();
+  $('main-menu').classList.add('hidden');
 }
 
-$('play').addEventListener('pointerup', start)
+$('play').addEventListener('pointerup', start);
