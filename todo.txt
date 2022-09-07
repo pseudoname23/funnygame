@@ -1,0 +1,17 @@
+=== INTERNALS ===
+- rename MobileRect to MovableRect
+- CollisionRect extends MovableRect
+- - vx, vy
+- - blockedOn (bottom, left, right, top)
+- - contacts
+- - groundFriction, airFriction
+- - the four getters plus canMoveUp
+- - the six onTouch/onLeave methods
+- - on(Lose/Gain)Contact 
+- - updatePosition
+- - args:
+- - - x, y, width, height
+- - - vx, vy 
+- - - groundFriction, airFriction
+- - - onTouch(Floor/Wall/Ceiling)
+- - - onLeave(Floor/Wall/Ceiling)
