@@ -8,6 +8,7 @@ onresize();
 const player = new Player(-0.5, -0.5, 1, 1);
 
 function start() {
+  if (state !== states.MAIN_MENU) return;
   window.addEventListener('tick', updatePlayer);
   schmooves.walljump.equip();
   tick();
@@ -16,6 +17,7 @@ function start() {
 }
 
 $('play').addEventListener('pointerup', start);
+new BindableFunction('startGame', false, start).bind('Enter');
 
 function setPlayerName() {
   // `this` refers to the element `input#in-game-name`
