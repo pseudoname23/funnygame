@@ -1,6 +1,6 @@
 new BindableFunction('jump', true,
   function () {
-    if (player.airborne) return;
+    if (player.airborne || state !== states.IN_GAME) return;
     player.vy = jumpHeightToVelocity(player.stats.jumpHeight);
     player.airborneFromJump = true;
   }, function () {
@@ -11,6 +11,7 @@ new BindableFunction('jump', true,
 
 new BindableFunction('moveRight', false,
   function () {
+    if (state !== states.IN_GAME) return;
     player.movementState.holdRight = true;
   }, function () {
     player.movementState.holdRight = false;
@@ -19,6 +20,7 @@ new BindableFunction('moveRight', false,
 
 new BindableFunction('moveLeft', false,
   function () {
+    if (state !== states.IN_GAME) return;
     player.movementState.holdLeft = true;
   }, function () {
     player.movementState.holdLeft = false;
@@ -35,4 +37,4 @@ new BindableFunction('pause', false,
       $('pause-menu').classList.add('hidden');
     }
   }
-)
+).bind('Escape');

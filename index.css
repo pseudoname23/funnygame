@@ -1,20 +1,13 @@
 body {
   margin: 0;
+  position: relative;
 }
 #game {
   position: relative;
   top: -100%;
   z-index: -1;
 }
-canvas {
-  position: absolute;
-  top: 0; left: 0;
-}  
 #main-menu {
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
   background-image: radial-gradient(transparent, rgba(0, 0, 0, 0.7));
 }
 .main-menu-row {
@@ -26,6 +19,21 @@ canvas {
   font-size: 24px;
   font-family: sans-serif;
 }
+#pause-menu {
+  background-color: rgba(0,0,0,0.3);
+  width: 100vw;
+  text-align: center;
+}
 .hidden {
   opacity: 0;
+}
+.anchored {
+  position: absolute;
+  top: 0; left: 0;
+}
+.fullscreen-menu {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
 }

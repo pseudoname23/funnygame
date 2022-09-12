@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="./index.css">
   </head>
   <body>
-    <div id="main-menu">
+    <div id="main-menu" class="fullscreen-menu">
       <div class="main-menu-row">
         <span id="game-title">[insert game name here]</span>
       </div>
@@ -13,12 +13,14 @@
       </div>
       <div class="main-menu-row"></div>
     </div>
-    <div id="pause-menu" class="hidden">
-      
+    <div id="pause-menu" class="hidden anchored fullscreen-menu">
+      <span id="pause-title">Game Paused</span>
+      <div id="pause-continue">Continue</div>
+      <div id="pause-quit">Quit</div>
     </div>
     <div id="game">
-      <canvas id="mobile"></canvas>
-      <canvas id="static">This text should not appear</canvas>
+      <canvas id="mobile" class="anchored"></canvas>
+      <canvas id="static" class="anchored">This text should not appear</canvas>
     </div>
   </body>
   <script src="./scripts/constlet.js" defer></script>
