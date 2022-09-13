@@ -1,6 +1,6 @@
 class Player {
   constructor(x, y, width, height) {
-    this.rect = new MobileRect(x, y, width, height);
+    this.rect = new MovableRect(x, y, width, height);
     this.vx = this.vy = 0;
     this.movementState = {
       blockedOn: {
@@ -94,7 +94,7 @@ class Player {
     if (this.secondaryAttack) this.secondaryAttack.onAfterBonk();
   }
   onLoseContact(contact){
-    let prevPosition = new MobileRect(
+    let prevPosition = new MovableRect(
       this.rect.x - this.rect.lastTranslation[0],
       this.rect.y - this.rect.lastTranslation[1],
       this.rect.width, this.rect.height
