@@ -44,7 +44,7 @@ class Rectangle {
     )
   }
 }
-class MobileRect extends Rectangle {
+class MovableRect extends Rectangle {
   constructor(x, y, w, h) {
     super(x, y, w, h);
     this.lastTranslation = [null, null];
