@@ -3,8 +3,6 @@ body {
   position: relative;
 }
 #game {
-  position: relative;
-  top: -100%;
   z-index: -1;
 }
 #game-title {
@@ -29,7 +27,7 @@ body {
   width: 45px !important;
 }
 .hidden {
-  opacity: 0;
+  display: none !important;
 }
 .anchored {
   position: absolute;
