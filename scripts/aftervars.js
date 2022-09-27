@@ -16,12 +16,5 @@ function start() {
   state = states.IN_GAME;
 }
 
-$('play').addEventListener('pointerup', start);
+$('title-play-btn').addEventListener('pointerup', start);
 new BindableFunction('startGame', false, start).bind('Enter');
-
-function setPlayerName() {
-  // `this` refers to the element `input#in-game-name`
-  player.name = this.value;
-}
-
-$('in-game-name').addEventListener('input', setPlayerName);
