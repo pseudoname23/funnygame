@@ -22,7 +22,7 @@ body {
 .pause-menu-btn:hover {
   opacity: 1
 }
-#continue-btn {
+#pause-continue-btn {
   margin: 0 30px;
   width: 45px !important;
 }
