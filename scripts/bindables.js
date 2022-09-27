@@ -27,7 +27,7 @@ new BindableFunction('moveLeft', false,
   }
 ).bind('KeyA');
 
-new BindableFunction('pause', false, 
+new BindableFunction('pauseContinue', false, 
   function() {
     if (state === states.IN_GAME) {
       state = states.PAUSED;
@@ -38,3 +38,5 @@ new BindableFunction('pause', false,
     }
   }
 ).bind('Escape');
+
+$('pause-continue-btn').addEventListener('pointerup', bindableFunctions.pauseContinue.down);
