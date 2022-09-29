@@ -31,7 +31,7 @@ class Ability {
       case !args.name || !args.onUse:
         throw Error('Missing one or more mandatory arguments in Ability()');
     }
-    args.isAttack ? (attacks[args.name] = this) : (schmooves[args.name] = this);
+    (args.isAttack ? attacks : schmooves)[args.name] = this;
     this.isAttack = args.isAttack;
     this.name = args.name;
     this.equipped = false;
