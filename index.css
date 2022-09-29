@@ -24,10 +24,13 @@ body {
   opacity: 1
 }
 #pause-continue-btn, #title-play-btn {
-  width: 45px !important;
+  width: 45px
 }
 #title-account-btn {
-  width: 52px !important;
+  width: 52px
+}
+#title-help-btn {
+  width: 37px
 }
 .hidden {
   display: none !important;
