@@ -38,7 +38,6 @@ class BindableFunction {
 }
 function onkeydown(ev) {
   if (!bindings[ev.code] || ev.repeat) return;
-  //if (!bindings[ev.code].allowRepeat) bindings[ev.code].down();
   for (let keybind of bindings[ev.code]) {
     if (!keybind.allowRepeat) keybind.down();
   }
@@ -69,7 +68,6 @@ addEventListener('mousedown', onmousedown);
 addEventListener('mouseup', onmouseup);
 function repeatHeldKeys() {
   for (let key of Object.keys(activeKeys)) {
-    //if (bindings[key] && bindings[key].allowRepeat) bindings[key].down();
     if (!bindings[key]) continue;
     for (let binding of bindings[key]) {
       if (binding.allowRepeat) binding.down();
