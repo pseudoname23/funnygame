@@ -5,10 +5,7 @@ body {
 #game {
   z-index: -1;
 }
-#game-title {
-  font: bold 40px sans-serif;
-}
-#paused-text {
+.fullscreen-menu-title {
   font: bold 40px sans-serif;
   margin-bottom: 15px;
 }

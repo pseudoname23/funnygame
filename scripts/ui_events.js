@@ -1,4 +1,4 @@
-function onresize() {
+onresize = ()=>{
   const pageRect = document.body.getClientRects()[0];
   zoom.screenDimensions.width = pageRect.width;
   zoom.screenDimensions.height = pageRect.height;
@@ -9,7 +9,23 @@ function onresize() {
   computeScreenSidesInUnits();
   drawAll();
 }
-addEventListener('resize', onresize);
+onbeforeunload = ()=>1;
+
+function start() {
+  if (state !== states.MAIN_MENU) return;
+  window.addEventListener('tick', updatePlayer);
+  schmooves.walljump.equip();
+  tick();
+  $('main-menu').classList.add('hidden');
+  state = states.IN_GAME;
+  window.removeEventListener('keyup', _start);
+}
+function _start(ev) {
+  if (ev.code === "Enter") start();
+}
+
+$('title-play-btn').addEventListener('pointerup', start);
+addEventListener('keyup', _start);
 
 function pauseUnpause() {
   if (state === states.IN_GAME) {
@@ -20,4 +36,8 @@ function pauseUnpause() {
     $('pause-menu').classList.add('hidden');
   }
 }
+function _pause(ev) {
+  if (ev.code === "Escape") pauseUnpause();
+}
 $('pause-continue-btn').addEventListener('pointerup', pauseUnpause);
+addEventListener('keyup', _pause);
