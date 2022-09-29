@@ -26,18 +26,3 @@ new BindableFunction('moveLeft', false,
     player.movementState.holdLeft = false;
   }
 ).bind('KeyA');
-
-// This should probably not be a bindable function
-/*
-new BindableFunction('pauseContinue', false, 
-  function() {
-    if (state === states.IN_GAME) {
-      state = states.PAUSED;
-      $('pause-menu').classList.remove('hidden');
-    } else if (state === states.PAUSED) {
-      state = states.IN_GAME;
-      $('pause-menu').classList.add('hidden');
-    }
-  }
-).bind('Escape');
-*/

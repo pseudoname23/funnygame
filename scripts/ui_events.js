@@ -36,8 +36,6 @@ function pauseUnpause() {
     $('pause-menu').classList.add('hidden');
   }
 }
-function _pause(ev) {
-  if (ev.code === "Escape") pauseUnpause();
-}
+new BindableFunction('pauseContinue', false, pauseUnpause).bind('Escape');
 $('pause-continue-btn').addEventListener('pointerup', pauseUnpause);
-addEventListener('keyup', _pause);
+// todo: split pauseUnpause() into pause() and exitMenu()
