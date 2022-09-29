@@ -27,6 +27,7 @@ new BindableFunction('moveLeft', false,
   }
 ).bind('KeyA');
 
+// This should probably not be a bindable function
 new BindableFunction('pauseContinue', false, 
   function() {
     if (state === states.IN_GAME) {

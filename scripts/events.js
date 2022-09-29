@@ -2,18 +2,6 @@ function tick() {
   dispatchEvent(new CustomEvent('tick'));
   setTimeout(tick, secondsPerTick * 1000)
 }
-function onresize() {
-  const pageRect = document.body.getClientRects()[0];
-  zoom.screenDimensions.width = pageRect.width;
-  zoom.screenDimensions.height = pageRect.height;
-  for (let canvas of Object.values(canv)) {
-    canvas.width = pageRect.width;
-    canvas.height = pageRect.height;
-  }
-  computeScreenSidesInUnits();
-  drawAll();
-}
-window.addEventListener('resize', onresize);
 function mouseEventToEventCode(ev) {
   switch (ev.button) {
     case 0: return 'mouseLeft';
