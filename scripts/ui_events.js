@@ -27,13 +27,28 @@ function _start(ev) {
 $('title-play-btn').addEventListener('pointerup', start);
 addEventListener('keyup', _start);
 
+const showMenu = id => $(id).classList.remove('hidden');
+const hideMenu = id => $(id).classList.add('hidden');
 function pauseUnpause() {
   if (state === states.IN_GAME) {
     state = states.PAUSED;
-    $('pause-menu').classList.remove('hidden');
+    showMenu('pause-menu')
   } else if (state === states.PAUSED) {
     state = states.IN_GAME;
-    $('pause-menu').classList.add('hidden');
+    hideMenu('pause-menu');
+  }
+}
+function exitCurrentMenu() {
+  if (isInGame) {
+    switch (state) {
+      case states.PAUSED: return pauseUnpause();
+      case states.SETTINGS: return hideMenu('settings-menu');
+    }
+  } else {
+    switch (state) {
+      case states.SETTINGS: return hideMenu('settings-menu');
+      case states.ACCOUNT: return hideMenu('settings-menu');
+    }
   }
 }
 new BindableFunction('pauseContinue', false, pauseUnpause).bind('Escape');
