@@ -9,7 +9,7 @@ onresize = ()=>{
   computeScreenSidesInUnits();
   drawAll();
 }
-onbeforeunload = ()=>1;
+// onbeforeunload = ()=>1;
 
 function start() {
   if (state !== states.MAIN_MENU) return;
